@@ -1,7 +1,10 @@
 # AI_Phase2
-Sentiment Analysis for Marketing (Phase 2)
+Sentiment Analysis for Marketing based on the dataset of US Airline Sentiment data from Twitter
+
+
+#import necessary libraries 
 library(RSQLite)
-db <- dbConnect(dbDriver("SQLite"), "../input/database.sqlite")
+db <- dbConnect(dbDriver("SQLite"),"../input/database.sqlite")
 library(dplyr)
 tables <- dbGetQuery(db, "SELECT Name FROM sqlite_master WHERE type='table'")
 colnames(tables) <- c("Name")
@@ -9,10 +12,7 @@ tables <- tables %>%
           rowwise() %>%
           mutate(RowCount=dbGetQuery(db, paste0("SELECT COUNT(*) RowCount FROM ", Name))$RowCount[1])
 print.table(tables)
-print.table(dbGetQuery(db, "
-SELECT *
-FROM Tweets
-LIMIT 6"))
+print.table(dbGetQuery(db, "SELECT * FROM Tweets LIMIT 6"))
 library(ggvis)
 dbGetQuery(db, "
 SELECT airline Airline,
